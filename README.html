@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+</head>
+<body style="background-color:#F5FBFC;">
+<style>
+h1 {text-align: center;}
+div {text-align: center;}
+.center {
+  max-width: 500px;
+  margin: auto;
+  font-family: Courier New;
+}
+.main {
+  width: 60%;
+  margin-left: 20%;
+  line-height:120%;
+  font-family: Courier New;
+ }
+.tab {
+  width: 60%;
+  margin-left: 22%;
+  line-height:120%;
+  font-family: Courier New;
+ }
+</style>
+
+<div class="center">
+<h2>LatinToFrench - guide d'utilisation</h2>
+</div>
+
+<h4 class="main">Prérequis</h4>
+<p class="main"> 
+Avant toute chose, assurez-vous que : </p>
+<p class="tab">
+ - Perl est installé sur votre ordinateur ; <br>
+ - Les fichiers LatinToFrench.pl et simple_lex.tsv (au minimum) ont été téléchargés ; <br>
+ - Ces fichiers ont été enregistrés dans le même dossier ; <br>
+ - Les modules String::Similarity et IO::Prompt::Simple sont installés sur votre ordinateur. 
+ Si ce n'est pas le cas, tapez les commandes suivantes dans votre terminal : "cpanm String::Similarity"
+ et "cpanm IO::Prompt::Simple".
+
+</p>
+
+<h4 class="main">Exécution du programme</h4>
+
+<p class="main"> 
+Dans votre terminal, naviguez jusqu'à l'endroit où se trouvent les documents mentionnés
+ci-dessus. Si vous utilisez Windows, tapez la commande "chcp 65001" et appuyez sur Enter. <br>
+Entrez ensuite votre commande selon le mode que vous souhaitez utiliser :</p>
+<p class="tab">
+<B>1) View</B> <br>
+  <i>Syntaxe : perl LatinToFrench.pl view gaudi*am</i> <br>
+  Retrace les différentes étapes de l'évolution du mot latin passé en argument et 
+  imprime les meilleurs matchs trouvés dans la base de données Lexique3. <br> <br>
+  Exemple de sortie: </p>
+  
+  <p class="center">
+	<i>###     Prétraitement            ### <br>
+	Découpe en syllabes : gau-di*-am  (3 syllabe(s)) <br>
+	Place de l'accent tonique : g'audi*am <br> <br>
+
+	###      Latin vulgaire          ### <br>
+	Evolution au 1er siècle : g'audja <br>
+	Evolution au 5ème siècle : g'aujja <br> <br>
+
+	###      Gallo-roman             ### <br>
+	Evolution au 8ème siècle : (dZ)'oi3 <br> <br>
+
+	###      Français archaïque      ### <br>
+	Evolution au 12ème siècle : (dZ)'ue3 <br> <br>
+
+	###      Ancien français         ### <br>
+	Evolution au 13ème siècle : Zw'a3 <br> <br>
+
+	###      Moyen français          ### <br>
+	Evolution au 16ème siècle : Zw'a <br> <br>
+
+	###      Français moderne        ### <br>
+	Evolution au 18ème siècle : Zw'a <br> <br>
+
+	###      Meilleurs matchs        ### <br>
+	joie,joies </i><br>
+  </p>
+<p class="tab">
+<B>2) Evol</B> <br>
+  <i>Syntaxe : perl LatinToFrench.pl evol gaudi*am joie</i> <br>  
+  Le premier argument est un mot latin, le second l'évolution en français moderne
+  que vous avez trouvée (tous les deux dans leur forme orthographique). Le programme
+  imprime un message selon que votre réponse correspond au résultat qu'il a obtenu, en 
+  est très proche ou ne correspond pas du tout. <br>
+  Vous aurez ensuite la possibilité de voir l'évolution du mot étape par étape et d'effectuer
+  des modifications si vous le souhaitez. <br><br>
+  Exemple de sortie: </p>
+  
+  <p class="center">
+	<i>
+	Félicitations ! Votre réponse est correcte <br><br>
+	Souhaitez-vous voir l'évolution du mot ?<br>
+	(n/o) : n
+	</i></p>
+<p class="tab">
+<B>3) Test</B> <br>
+  <i>Syntaxe : perl LatinToFrench.pl test test_set.txt</i> <br>
+  Ce mode permet d'évaluer la performance du programme sur un corpus de test. Le fichier doit
+  comprendre deux colonnes séparées par des tabulations, la première contenant les mots 
+  latins à faire évoluer et la seconde leur évolution correcte.<br><br> 
+  Exemple de sortie: </p>
+  
+  <p class="center">
+	<i>
+	Test de performance en cours...<br><br>
+	Performance: 89.6551724137931 %
+	</i></p>
+  <br>
+</p> 
+
+<h4 class="main">Remarques importantes</h4>
+<p class="tab"> 
+- Les mots passés en arguments doivent être dans leur forme orthographique : le programme
+s'occupera lui-même de les convertir en forme phonétique. <br>
+- Les voyelles brèves doivent être suivies par "*" pour permettre le bon fonctionnement du 
+programme. Si vous n'êtes pas certain.e de la longueur des voyelles, vous pouvez essayer
+différentes combinaisons. <br>
+(Indice : les voyelles en hiatus sont généralement brèves.) <br>
+- L'évolution du mot est réalisée phonétiquement. Le tableau ci-dessous présente les 
+équivalences entre les symboles de l'alphabet phonétique international et ceux utilisés 
+par le programme : <br>
+</p>
+
+<table class="center" style="border-collapse: collapse; border: none; border-spacing: 0px;">
+	<!--<caption>
+		Correspondance entre symboles API et caractères utilisés dans le programme
+	</caption>-->
+	<tr>
+		<td colspan="8" style="border-bottom: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>Codage des phonèmes</b>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="6" style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>Symboles repris de Lexique3</b>
+		</td>
+		<td colspan="2" style="text-align: right; padding-right: 3pt; padding-left: 3pt;">
+			<b>Symboles ajoutés</b>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" style="border-right: 1px solid black; border-bottom: 1px solid black; padding-right: 3pt; padding-left: 3pt;">
+			<b>Voyelles</b>
+		</td>
+		<td colspan="2" style="border-right: 1px solid black; border-bottom: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<b>Semi-voyelles</b>
+		</td>
+		<td colspan="2" style="border-right: 1px solid black; border-bottom: 1px solid black; text-align: right; padding-right: 3pt; padding-left: 3pt;">
+			<b>Consonnes</b>
+		</td>
+		<td style="<border-right: 1px solid black; border-bottom: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="border-bottom: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			a
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			a
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			j
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			j
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			p
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			p
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			β
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			B
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			i
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			i
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			ɥ
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			8
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			b
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			b
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			ʎ
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			J
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			y
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			y
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			w
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			w
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			t
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			t
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			θ
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			T
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			u
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			u
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			d
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			d
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			ð
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			D
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			o
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			o
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			k
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			k
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			r
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			r
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			ɔ
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			O
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			g
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			g
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			voyelle brève
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			*
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			e
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			e
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			f
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			f
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			accent tonique
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			'
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			ɛ
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			E
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			v
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			v
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			palatalisation
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			°j
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			ø
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			2
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			s
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			s
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		assibilation
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		()
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			œ
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			9
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			z
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			z
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<font face="Times New Roman" color="#333333">ɛ̃ 
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			5
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			ʃ
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			S
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<font face="Times New Roman" color="#333333">œ̃
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			1
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			ʒ
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			Z
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			<font face="Times New Roman" color="#333333">ɑ̃
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			@
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			m
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			m
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			 <font face="Times New Roman" color="#333333"> ɔ̃ 
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			§
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			n
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			n
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			ə
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			3
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			ɲ
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			N
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			l
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			l
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			ʁ
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; padding-right: 3pt; padding-left: 3pt;">
+			R
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+	</tr>
+	<tr>
+		<td style="text-align: center; border-bottom: 1.5px solid black; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; border-bottom: 1.5px solid black; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; border-bottom: 1.5px solid black; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; border-bottom: 1.5px solid black; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; border-bottom: 1.5px solid black; padding-right: 3pt; padding-left: 3pt;">
+			ŋ
+		</td>
+		<td style="border-right: 1px solid black; text-align: center; border-bottom: 1.5px solid black; padding-right: 3pt; padding-left: 3pt;">
+			G
+		</td>
+		<td style="text-align: center; border-bottom: 1.5px solid black; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+		<td style="text-align: center; border-bottom: 1.5px solid black; padding-right: 3pt; padding-left: 3pt;">
+		</td>
+	</tr>
+</table>
+
+<br><br><br>
+</body>
+</html>
+
