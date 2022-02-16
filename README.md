@@ -105,8 +105,7 @@ Below are examples of words which can be used to test the programme.
 | Cohortem       | Cour */kur/*     | **cour**, coure, courent, coures, courre, cours, court, courts |
 | Maledice\*re   | Maudire */modir/*| **maudire** ,maudirent |
 | Caelum         | Ciel */sjel/*    | **ciel**, ciels            |
-| Cooperire      | Couvrir */kuvʁiʁ/* | **couvrir**, couvrirent |
-| Ni\*ve\*a      | Neige */nɛʒ/*    | **neige**, neige, neiges  |    
+| Cooperire      | Couvrir */kuvʁiʁ/* | **couvrir**, couvrirent | 
 | Cantare        | Chanter */ʃɑ̃te/* | **chanter**, chantez, chanté, chantée, chantées, chantés |
 | Pale\*a        | Paille */paj/*   | **paille**, paille, pailles |
 | Sabi\*um       | Sage */saʒ/*     | **sage**, sage, sages |
